@@ -22,10 +22,21 @@ function track(){
 		.y(function(e){return scale_y(e.LON)})
 		var g = svg.append('g')
 			.attr('transform', 'translate(0,0) scale(1)')
-			.append('path')
-			.attr('d', line(data))
-			.style('stroke', '#000')
-			.style('fill', 'none')
+			// .append('path')
+			// .attr('d', line(data))
+			// .style('stroke', '#000')
+			// .style('fill', 'none')
+		g.selectAll('.point')
+		.data(data)
+		.enter()
+		.append('circle')
+		.attr('class', 'point')
+		.attr('r', 0.5)
+		.attr('cx', function(e){
+			return scale_x(e.LAT)
+		})
+		.attr('cy', function(e){return scale_y(e.LON)})
+
 
 	}
 	return {
