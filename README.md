@@ -1,8 +1,8 @@
-#TODO:
+# TODO:
 
 * zoom/scale
 * better tooltip (more information, better layout)
-* better tooltip move(hidden line with more width)
+* ~~better tooltip move(hidden line with more width)~~
 * circle to follow tooltip
 * finish line
 * single lap
