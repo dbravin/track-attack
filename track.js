@@ -36,7 +36,12 @@ function track(){
 
 	function draw(points, lines){
 		var from = new Date()
-
+		var tooltip = d3.select("body")
+			.append("div")
+			.style("position", "absolute")
+			.style("z-index", "10")
+			.style("visibility", "hidden")
+			.text("a simple tooltip");
 		var svg = d3.select('svg#track')
 		var x = d3.extent(points, function(e){
 			return e.LAT
@@ -82,6 +87,12 @@ function track(){
 		.attr('y2',function(e){return scale_y(e.LON)})
 		.style('stroke', '#000')
 		.style('stroke-width', '0.5')
+		.on("mouseover", function(data){
+			tooltip.text(data["SPEED GPS"])
+			tooltip.style("visibility", "visible");
+		})
+		.on("mousemove", function(data){ tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+		.on("mouseout", function(data){ tooltip.style("visibility", "hidden");});
 
 		var to=new Date()
 		console.log("duration" + (to.getTime()-from.getTime()))
