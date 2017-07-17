@@ -1,6 +1,6 @@
 # TODO:
 
-* zoom/scale
+* ~~zoom/pan~~
 * better tooltip (more information, better layout)
 * ~~better tooltip move(hidden line with more width)~~
 * circle to follow tooltip
