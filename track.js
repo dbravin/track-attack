@@ -4,8 +4,8 @@ function track(){
 		var data = d3.csv('adria_cleaned.csv', function(d){draw(d, gen_lines(d))})
 		//var points = [{LAT: 10, LON: 10}, {LAT: 15, LON: 15}, {LAT: 25, LON: 15}]
 		// draw(points, gen_lines(points))
-
 	}
+
 	function gen_lines(dots){
 		// var headers = headers =["TIME", "LAT", "LON", "GPS", "DIR", "GEAR", "ACC(X)", "ACC(Y)", "ACC(Z)", "BAT", "POWER", "SPEED1", "SPEED2", "AN1", "AN2", "AN3", "AN4", "AN5", "AN6", "AN7", "AN8", "SPEED GPS", "RPM", "TEMP"]
 		var filtered_headers =["TIME", "LAT", "LON", "GPS", "DIR", "ACC(X)", "ACC(Y)", "ACC(Z)", "SPEED GPS"]
@@ -95,8 +95,23 @@ function track(){
 		.on("mousemove", function(data){ tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
 		.on("mouseout", function(data){ tooltip.style("visibility", "hidden");});
 
+		var zoom = d3.zoom()
+		.scaleExtent([1, 10])
+		// .translateExtent([[-100, -100], [700 + 90, 400 + 100]])
+		.on("zoom", zoomed);
+		svg.call(zoom);
+
+		function zoomed() {
+		  g.attr("transform", d3.event.transform);
+		}
+		function resetted() {
+ 			svg.transition()
+		      .duration(750)
+		      .call(zoom.transform, d3.zoomIdentity);
+		}
 		var to=new Date()
 		console.log("duration" + (to.getTime()-from.getTime()))
+		// setTimeout(resetted, 5000)
 	}
 	return {
 		main: main
