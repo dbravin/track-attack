@@ -18,6 +18,7 @@ function track(){
 			return k.reduce(function(acc, v){acc[v] =e[v];return acc;},{})
 		}
 		return dots
+			.slice(0, 10000) //TODO remove this develop only
 			.map(remove_useless_header)
 			.reduce(function(acc, v, i){
 			var res = clone(v);
@@ -60,33 +61,33 @@ function track(){
 		.y(function(e){return scale_y(e.LON)})
 		var g = svg.append('g')
 		.attr('transform', 'translate(10,10) scale(1)')
-		
-		// g.append('path')
-		// 	.attr('d', line(data))
-		// 	.style('stroke', '#000')
-		// 	.style('fill', 'none')
 
-		// g.selectAll('.point')
-		// .data(points)
-		// .enter()
-		// .append('circle')
-		// .attr('class', 'point')
-		// .attr('r', 0)
-		// .attr('cx', function(e){
-		// 	return scale_x(e.LAT)
-		// })
-		// .attr('cy', function(e){return scale_y(e.LON)})
-
-		g.selectAll('.lines')
+		g.selectAll('line.path')
 		.data(lines)
 		.enter()
 		.append('line')
+		.attr('class', 'path')
 		.attr('x1',function(e){return scale_x(e.old.LAT)})
 		.attr('y1',function(e){return scale_y(e.old.LON)})
 		.attr('x2',function(e){return scale_x(e.LAT)})
 		.attr('y2',function(e){return scale_y(e.LON)})
 		.style('stroke', '#000')
 		.style('stroke-width', '0.5')
+
+
+		g.selectAll('line.border')
+		.data(lines)
+		.enter()
+		.append('line')
+		.attr('class', 'border')
+		.attr('x1',function(e){return scale_x(e.old.LAT)})
+		.attr('y1',function(e){return scale_y(e.old.LON)})
+		.attr('x2',function(e){return scale_x(e.LAT)})
+		.attr('y2',function(e){return scale_y(e.LON)})
+		.style('stroke', 'red')
+	    .style('stroke-opacity', 0)
+	    .style('stroke-width', 5)
+	    .style('stroke-linecap', 'round')
 		.on("mouseover", function(data){
 			tooltip.text(data["SPEED GPS"])
 			tooltip.style("visibility", "visible");
