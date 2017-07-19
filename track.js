@@ -1,9 +1,11 @@
 function track(){
 
 	function main(){
-		var data = d3.csv('adria_cleaned.csv', function(d){draw(d, gen_lines(d))})
-		//var points = [{LAT: 10, LON: 10}, {LAT: 15, LON: 15}, {LAT: 25, LON: 15}]
-		// draw(points, gen_lines(points))
+		d3.text('N45_04E012_15_ADRIA.TRK', function (d){
+			var dd = d.split(';')
+			var fl = [dd[0].slice(3), dd[1]]
+		var data = d3.csv('adria_cleaned.csv', function(d){draw(d, gen_lines(d), fl)})
+		})
 	}
 
 	function gen_lines(dots){
@@ -35,7 +37,7 @@ function track(){
 		.filter(function(e){return e.old})
 	}
 
-	function draw(points, lines){
+	function draw(points, lines, finish_line){
 		var from = new Date()
 		var tooltip = d3.select("body")
 			.append("div")
@@ -74,6 +76,12 @@ function track(){
 		var g = svg.append('g')
 		.attr('transform', 'translate(10,10) scale(1)')
 
+		g
+		.append('circle')
+		.attr('cx',function(e){return scale_x(finish_line[0])})
+		.attr('cy',function(e){return scale_y(finish_line[1])})
+		.attr('r',25)
+		.style('stroke', 'black')
 		g.selectAll('line.path')
 		.data(lines)
 		.enter()
