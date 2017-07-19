@@ -39,10 +39,22 @@ function track(){
 		var from = new Date()
 		var tooltip = d3.select("body")
 			.append("div")
+			.attr('class', 'tooltip')
 			.style("position", "absolute")
 			.style("z-index", "10")
 			.style("visibility", "hidden")
-			.text("a simple tooltip");
+		tooltip
+			.append('div')
+			.attr('class', 'speed')
+		tooltip
+			.append('div')
+			.attr('class', 'accelaration')
+		tooltip
+			.append('div')
+			.attr('class', 'coords')
+		tooltip
+			.append('div')
+			.attr('class', 'time')
 		var svg = d3.select('svg#track')
 		var x = d3.extent(points, function(e){
 			return e.LAT
@@ -89,11 +101,20 @@ function track(){
 	    .style('stroke-width', 5)
 	    .style('stroke-linecap', 'round')
 		.on("mouseover", function(data){
-			tooltip.text(data["SPEED GPS"])
+			tooltip
+			.select('div.speed')
+			.text('speed: ' + data["SPEED GPS"])
+			tooltip.select('div.accelaration')
+			.text('acc x: ' + data["ACC(X)"]+ ', acc y: '+ data["ACC(Y)"]+' acc z: ' + data["ACC(Z)"])
+			tooltip.select('div.coords')
+			.text('coords: ' + data['LAT'] + ' ' + data['LON'])
+			tooltip.select('div.time')
+			.text('time: ' + data['TIME'])
 			tooltip.style("visibility", "visible");
 		})
 		.on("mousemove", function(data){ tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
 		.on("mouseout", function(data){ tooltip.style("visibility", "hidden");});
+
 
 		var zoom = d3.zoom()
 		.scaleExtent([1, 10])
